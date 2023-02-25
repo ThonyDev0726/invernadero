@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -91,6 +90,8 @@ public class ActivityCrearRegistro extends AppCompatActivity {
         });
         arduino.setOnClickListener(v -> {
             Toast.makeText(ActivityCrearRegistro.this, "Arduino funcionando", Toast.LENGTH_LONG).show();
+            etTemperatura.setText(numeroTemperatura() + "");
+            etHumedad.setText(numeroHumedad() + "");
         });
     }
 
@@ -156,4 +157,19 @@ public class ActivityCrearRegistro extends AppCompatActivity {
         // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
+
+    public double numeroTemperatura() {
+        int min_val = 10;
+        int max_val = 50;
+        double randomNum = Math.random() * (max_val - min_val);
+        return randomNum;
+    }
+
+    public double numeroHumedad() {
+        int min_val = 10;
+        int max_val = 50;
+        double randomNum = Math.random() * (max_val - min_val);
+        return randomNum;
+    }
 }
+

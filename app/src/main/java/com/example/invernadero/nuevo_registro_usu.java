@@ -92,7 +92,8 @@ public class nuevo_registro_usu extends AppCompatActivity {
         });
         arduino.setOnClickListener(v -> {
             Toast.makeText(nuevo_registro_usu.this, "Arduino funcionando", Toast.LENGTH_LONG).show();
-
+            etTemperatura.setText(numeroTemperatura() + "");
+            etHumedad.setText(numeroHumedad() + "");
         });
     }
 
@@ -180,5 +181,18 @@ public class nuevo_registro_usu extends AppCompatActivity {
         });
         AlertDialog dialog = myBulid.create();
         dialog.show();
+    }
+    public double numeroTemperatura() {
+        int min_val = 10;
+        int max_val = 50;
+        double randomNum = Math.random() * (max_val - min_val);
+        return randomNum;
+    }
+
+    public double numeroHumedad() {
+        int min_val = 10;
+        int max_val = 50;
+        double randomNum = Math.random() * (max_val - min_val);
+        return randomNum;
     }
 }
