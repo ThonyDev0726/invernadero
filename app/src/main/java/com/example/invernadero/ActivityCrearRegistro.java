@@ -157,3 +157,5 @@ public class ActivityCrearRegistro extends AppCompatActivity {
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
 }
+
+//comentario
