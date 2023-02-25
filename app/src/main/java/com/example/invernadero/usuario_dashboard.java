@@ -13,11 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class administrador_dashboard extends AppCompatActivity {
-    ImageView imgNuevo, imgRegistros;
+public class usuario_dashboard extends AppCompatActivity {
     TextView etUsuario;
+    ImageView imgNuevo, imgRegistros;
     ConstraintLayout lay_usu, lay_reg, lay_form;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,28 +24,21 @@ public class administrador_dashboard extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_administrador_dashboard);
-        imgNuevo = (ImageView) findViewById(R.id.imgNuevoReg);
-        etUsuario = findViewById(R.id.txtUsuarioLogin);
-        lay_form = findViewById(R.id.card_nuevo_reg_form_admin);
-        lay_reg = findViewById(R.id.card_nuevo_reg_ver_admin);
-        lay_usu = findViewById(R.id.card_nuevo_reg_usu_admin);
+        setContentView(R.layout.activity_usuario_dashboard);
+        etUsuario = findViewById(R.id.txtUsuarioLogin_u);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             etUsuario.setText(bundle.getString("Usuario"));
         }
-        imgRegistros = (ImageView) findViewById(R.id.imgRegistros);
+        lay_form = findViewById(R.id.card_nuevo_reg_usu);
+        lay_reg = findViewById(R.id.card_ver_reg_usu);
         lay_form.setOnClickListener(v -> {
-            startActivity(new Intent(administrador_dashboard.this, ActivityCrearRegistro.class));
+            startActivity(new Intent(usuario_dashboard.this, nuevo_registro_usu.class).putExtra("Cargo", "usuario"));
         });
         lay_reg.setOnClickListener(v -> {
-            startActivity(new Intent(administrador_dashboard.this, MostrarRegistros.class));
-        });
-        lay_usu.setOnClickListener(v -> {
-            startActivity(new Intent(administrador_dashboard.this, admin_usu.class));
+            startActivity(new Intent(usuario_dashboard.this, MostrarRegistros.class).putExtra("Cargo", "usuario"));
         });
     }
-
 
     /*se controla la pulsacion del boton atras y cierra la aplicacion*/
     @Override
@@ -56,8 +48,8 @@ public class administrador_dashboard extends AppCompatActivity {
         myBulid.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(administrador_dashboard.this, MainActivity.class));
-                Toast.makeText(administrador_dashboard.this, "Cerraste sesion", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(usuario_dashboard.this, MainActivity.class));
+                Toast.makeText(usuario_dashboard.this, "Cerraste sesion", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -70,6 +62,5 @@ public class administrador_dashboard extends AppCompatActivity {
         AlertDialog dialog = myBulid.create();
         dialog.show();
     }
-}
 
-//https://youtu.be/DWIGAkYkpg8
+}

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,14 +29,14 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ActivityCrearRegistro extends AppCompatActivity {
+public class nuevo_registro_usu extends AppCompatActivity {
     ImageView uploadImage;
     Button btnGuardar, btnCancelar;
     EditText etTemperatura, etHumedad, etLuz, etVentilacion, etRiego, etFecha, etHora, etObservacion;
     String invTemperatura, invHumedad, invLuz, invVentilacion, invRiego, invFecha, invHora, invObservacion, invImagen;
     Uri uri;
-    TextView arduino;
     Invernadero invernadero;
+    TextView arduino;
 
     @Override
 
@@ -44,13 +45,14 @@ public class ActivityCrearRegistro extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_crear_registro);
+        setContentView(R.layout.activity_nuevo_registro_usu);
 
         //Concatenamos la interfaz con las variables de esta clase
         etTemperatura = findViewById(R.id.txtTemperatura);
         etHumedad = findViewById(R.id.txtHumedad);
         etLuz = findViewById(R.id.txtLuz);
         etVentilacion = findViewById(R.id.txtVentilacion);
+        arduino = findViewById(R.id.txt_arduino_usu);
         etRiego = findViewById(R.id.txtRiego);
         etFecha = findViewById(R.id.txtFecha);
         etHora = findViewById(R.id.txtHora);
@@ -58,7 +60,6 @@ public class ActivityCrearRegistro extends AppCompatActivity {
         uploadImage = findViewById(R.id.imgRegistro);
         btnGuardar = findViewById(R.id.btnGuardar);
         btnCancelar = findViewById(R.id.btnCancelar);
-        arduino = findViewById(R.id.txt_arduino_admin);
 
         //
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -71,7 +72,7 @@ public class ActivityCrearRegistro extends AppCompatActivity {
                             uri = data.getData();
                             uploadImage.setImageURI(uri);
                         } else {
-                            Toast.makeText(ActivityCrearRegistro.this, "No hay imagen seleccionada", Toast.LENGTH_LONG).show();
+                            Toast.makeText(nuevo_registro_usu.this, "No hay imagen seleccionada", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -90,7 +91,8 @@ public class ActivityCrearRegistro extends AppCompatActivity {
             guardarDatos();
         });
         arduino.setOnClickListener(v -> {
-            Toast.makeText(ActivityCrearRegistro.this, "Arduino funcionando", Toast.LENGTH_LONG).show();
+            Toast.makeText(nuevo_registro_usu.this, "Arduino funcionando", Toast.LENGTH_LONG).show();
+
         });
     }
 
@@ -100,7 +102,7 @@ public class ActivityCrearRegistro extends AppCompatActivity {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Imagenes Invernadero")
                 .child(uri.getLastPathSegment());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityCrearRegistro.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(nuevo_registro_usu.this);
         builder.setCancelable(false);
         builder.setView(R.layout.progress_layout);
         AlertDialog dialog = builder.create();
@@ -132,10 +134,10 @@ public class ActivityCrearRegistro extends AppCompatActivity {
         Date date = new Date();
         FirebaseDatabase.getInstance().getReference("Invernadero").child(cadenaAleatoria(10) + date.toString()).setValue(invernadero).addOnCompleteListener(v -> {
             if (v.isSuccessful()) {
-                Toast.makeText(ActivityCrearRegistro.this, "Los datos fueron guardados", Toast.LENGTH_LONG).show();
+                Toast.makeText(nuevo_registro_usu.this, "Los datos fueron guardados", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(v -> {
-            Toast.makeText(ActivityCrearRegistro.this, "No se pudo guardar los datos", Toast.LENGTH_LONG).show();
+            Toast.makeText(nuevo_registro_usu.this, "No se pudo guardar los datos", Toast.LENGTH_LONG).show();
         });
     }
 
@@ -155,5 +157,28 @@ public class ActivityCrearRegistro extends AppCompatActivity {
     public static int numeroAleatorioEnRango(int minimo, int maximo) {
         // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
+    }
+
+    /*se controla la pulsacion del boton atras y cierra la aplicacion*/
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder myBulid = new AlertDialog.Builder(this);
+        myBulid.setMessage("¿Deseas cancelar el registro?");
+        myBulid.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(nuevo_registro_usu.this, usuario_dashboard.class));
+                Toast.makeText(nuevo_registro_usu.this, "Registro cancelado!!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+        myBulid.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = myBulid.create();
+        dialog.show();
     }
 }

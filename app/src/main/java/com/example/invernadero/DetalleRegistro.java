@@ -104,7 +104,13 @@ public class DetalleRegistro extends AppCompatActivity {
     /*se controla la pulsacion del boton atras y cierra la aplicacion*/
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(DetalleRegistro.this, MostrarRegistros.class));
+        Bundle parametros_usu = getIntent().getExtras();
+        String cargo = parametros_usu.getString("Cargo");
+        if (cargo.equalsIgnoreCase("usuario")) {
+            startActivity(new Intent(DetalleRegistro.this, usuario_dashboard.class));
+        } else {
+            startActivity(new Intent(DetalleRegistro.this, administrador_dashboard.class));
+        }
         finish();
     }
 }

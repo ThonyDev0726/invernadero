@@ -100,7 +100,6 @@ public class ActualizarDetalle extends AppCompatActivity {
         //Evento actualizar
         btnActualizar.setOnClickListener(v -> {
             saveData();
-
         });
     }
 
@@ -159,5 +158,17 @@ public class ActualizarDetalle extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+    }
+    /*se controla la pulsacion del boton atras y cierra la aplicacion*/
+    @Override
+    public void onBackPressed() {
+        Bundle parametros_usu = getIntent().getExtras();
+        String cargo = parametros_usu.getString("Cargo");
+        if (cargo.equalsIgnoreCase("usuario")) {
+            startActivity(new Intent(ActualizarDetalle.this, usuario_dashboard.class));
+        } else {
+            startActivity(new Intent(ActualizarDetalle.this, ActivityCrearRegistro.class));
+        }
+        finish();
     }
 }

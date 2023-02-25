@@ -91,7 +91,7 @@ public class MostrarRegistros extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 searchList(searchView.getText().toString().toLowerCase());
-                if(recyclerView.getAdapter().getItemCount() == 0){
+                if (recyclerView.getAdapter().getItemCount() == 0) {
                     Toast.makeText(MostrarRegistros.this, "No existen registros", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -107,7 +107,13 @@ public class MostrarRegistros extends AppCompatActivity {
             }
         });
         btnFlotante.setOnClickListener(v -> {
-            startActivity(new Intent(MostrarRegistros.this,ActivityCrearRegistro.class));
+            Bundle parametros_usu = getIntent().getExtras();
+            String cargo = parametros_usu.getString("Cargo");
+            if (cargo.equalsIgnoreCase("usuario")) {
+                startActivity(new Intent(MostrarRegistros.this, ActivityCrearRegistro.class));
+            } else {
+                startActivity(new Intent(MostrarRegistros.this, ActivityCrearRegistro.class));
+            }
         });
     }
 
@@ -116,19 +122,25 @@ public class MostrarRegistros extends AppCompatActivity {
         for (Invernadero dataClass : datalist) {
             if (dataClass.getInvObservacion().toLowerCase().contains(text.toLowerCase())) {
                 searchList.add(dataClass);
-            }else if (dataClass.getInvFecha().toLowerCase().contains(text.toLowerCase())){
+            } else if (dataClass.getInvFecha().toLowerCase().contains(text.toLowerCase())) {
                 searchList.add(dataClass);
-            }
-            else{
+            } else {
                 System.out.println("No existen registros");
             }
         }
         adapter.searchDataList(searchList);
     }
+
     /*se controla la pulsacion del boton atras y cierra la aplicacion*/
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(MostrarRegistros.this, administrador_dashboard.class));
+        Bundle parametros_usu = getIntent().getExtras();
+        String cargo = parametros_usu.getString("Cargo");
+        if (cargo.equalsIgnoreCase("usuario")) {
+            startActivity(new Intent(MostrarRegistros.this, usuario_dashboard.class));
+        } else {
+            startActivity(new Intent(MostrarRegistros.this, ActivityCrearRegistro.class));
+        }
         finish();
     }
 }

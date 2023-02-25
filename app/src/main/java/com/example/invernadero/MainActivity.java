@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     TextView txtRegister;
     EditText etClave, etUsuario;
     FirebaseAuth mAuth;
-    Switch aSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         etUsuario = (EditText) findViewById(R.id.usernameLogin);
         btnLogin = (Button) findViewById(R.id.loginButton);
         txtRegister = (TextView) findViewById(R.id.signupTextBack);
-        aSwitch = (Switch) findViewById(R.id.switchAdmin);
         btnLogin.setOnClickListener(v -> {
             loginUser();
         });
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(email)) {
             etUsuario.setError("Este campo no debe estar vacio");
             etUsuario.requestFocus();
-
         } else if (TextUtils.isEmpty(clave)) {
             etClave.setError("Este campo no debe estar vacio");
             etClave.requestFocus();
@@ -70,22 +67,20 @@ public class MainActivity extends AppCompatActivity {
             etClave.setError("La contraseña no debe ser menor a 8 digitos");
             etClave.setText("");
             etClave.requestFocus();
+        } else if (email.equalsIgnoreCase("admin@gmail.com") && clave.equalsIgnoreCase("admin1234567890")) {
+            Toast.makeText(MainActivity.this, "Acceso correcto", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, administrador_dashboard.class).putExtra("Usuario", etUsuario.getText().toString()));
+            finish();
         } else {
             mAuth.signInWithEmailAndPassword(email, clave).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Boolean switchState = aSwitch.isChecked();
-                        if (switchState == true) {
-                            Toast.makeText(MainActivity.this, "Acceso correcto", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, administrador_dashboard.class).putExtra("Usuario", etUsuario.getText().toString()));
-                            finish();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Acceso correcto", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, MainActivity.class).putExtra("Usuario", etUsuario.getText().toString()));
-                            finish();
-                        }
-
+                        Toast.makeText(MainActivity.this, "Acceso correcto", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, usuario_dashboard.class)
+                                .putExtra("Usuario", etUsuario.getText().toString())
+                                .putExtra("Cargo", "usuario"));
+                        finish();
                     } else {
                         System.out.println(task.getException().getMessage());
                         if (task.getException().getMessage().equalsIgnoreCase("There is no user record corresponding to this identifier. The user may have been deleted.")) {

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/plantacion"
-    tools:context=".ActivityCrearRegistro">
+    tools:context=".nuevo_registro_usu">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:textColor="@color/purple"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:id="@+id/txt_arduino_admin"
+                android:id="@+id/txt_arduino_usu"
                 />
 
             <ImageView
