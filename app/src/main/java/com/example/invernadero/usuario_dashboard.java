@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class usuario_dashboard extends AppCompatActivity {
     TextView etUsuario;
     ImageView imgNuevo, imgRegistros;
-    ConstraintLayout lay_usu, lay_reg, lay_form;
+    ConstraintLayout lay_usu, lay_reg, lay_form, lay_control;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +32,15 @@ public class usuario_dashboard extends AppCompatActivity {
         }
         lay_form = findViewById(R.id.card_nuevo_reg_usu);
         lay_reg = findViewById(R.id.card_ver_reg_usu);
+        lay_control = findViewById(R.id.card_control_usu);
         lay_form.setOnClickListener(v -> {
             startActivity(new Intent(usuario_dashboard.this, nuevo_registro_usu.class).putExtra("Cargo", "usuario"));
         });
         lay_reg.setOnClickListener(v -> {
             startActivity(new Intent(usuario_dashboard.this, MostrarRegistros.class).putExtra("Cargo", "usuario"));
+        });
+        lay_control.setOnClickListener(v -> {
+            startActivity(new Intent(usuario_dashboard.this, Simulacion.class));
         });
     }
 

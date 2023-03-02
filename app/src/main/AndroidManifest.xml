@@ -13,6 +13,13 @@
         android:theme="@style/Theme.Invernadero"
         tools:targetApi="31">
         <activity
+            android:name=".Simulacion"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".nuevo_registro_usu"
             android:exported="false">
             <meta-data

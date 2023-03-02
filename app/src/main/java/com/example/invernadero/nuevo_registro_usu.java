@@ -182,17 +182,17 @@ public class nuevo_registro_usu extends AppCompatActivity {
         AlertDialog dialog = myBulid.create();
         dialog.show();
     }
-    public double numeroTemperatura() {
+    public Integer numeroTemperatura() {
         int min_val = 10;
         int max_val = 50;
-        double randomNum = Math.random() * (max_val - min_val);
+        int randomNum = (int) (Math.random() * (max_val - min_val));
         return randomNum;
     }
 
-    public double numeroHumedad() {
+    public Integer numeroHumedad() {
         int min_val = 10;
         int max_val = 50;
-        double randomNum = Math.random() * (max_val - min_val);
+        int randomNum = (int) (Math.random() * (max_val - min_val));
         return randomNum;
     }
 }

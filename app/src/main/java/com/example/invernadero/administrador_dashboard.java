@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class administrador_dashboard extends AppCompatActivity {
     ImageView imgNuevo, imgRegistros;
     TextView etUsuario;
-    ConstraintLayout lay_usu, lay_reg, lay_form;
+    ConstraintLayout lay_usu, lay_reg, lay_form, lay_simulacion;
 
 
     @Override
@@ -31,6 +31,7 @@ public class administrador_dashboard extends AppCompatActivity {
         lay_form = findViewById(R.id.card_nuevo_reg_form_admin);
         lay_reg = findViewById(R.id.card_nuevo_reg_ver_admin);
         lay_usu = findViewById(R.id.card_nuevo_reg_usu_admin);
+        lay_simulacion = findViewById(R.id.card_simulacion_admin);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             etUsuario.setText(bundle.getString("Usuario"));
@@ -44,6 +45,10 @@ public class administrador_dashboard extends AppCompatActivity {
         });
         lay_usu.setOnClickListener(v -> {
             startActivity(new Intent(administrador_dashboard.this, admin_usu.class));
+        });
+        lay_simulacion.setOnClickListener(v->{
+            startActivity(new Intent(administrador_dashboard.this, Simulacion.class));
+
         });
     }
 
